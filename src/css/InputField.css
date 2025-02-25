@@ -1,0 +1,45 @@
+.input-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-label {
+  font-size: 16px;
+  color: #000000;
+  background: white;
+  transition: all 0.3s ease-in-out;
+  pointer-events: none;
+}
+
+.input-field {
+  width: 100%;
+  border: 2px solid #b4b4b4;
+  border-radius: 8px;
+  font-size: 16px;
+  padding: 8px;
+  background: transparent;
+  outline: none;
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  color: #000;
+}
+
+.input-field:focus {
+  border-color: #3e3e3edd;
+  box-shadow: 0 0 8px rgba(78, 78, 78, 0.418);
+}
+
+.input-container.focused .input-label,
+.input-container .input-field:valid ~ .input-label {
+  top: -4px;
+  left: 12px;
+  font-size: 18px;
+  color: #000000;
+  background-color: #ffff;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0%) brightness(0);
+}

@@ -1,0 +1,29 @@
+.action-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0);
+}
+
+.action-content {
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+}
+
+.action-label {
+  display: block;
+  cursor: pointer;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.action-label:hover {
+  background: #f0f0f0;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
