@@ -26,8 +26,8 @@ A simple and interactive drag-and-drop to-do list built using React, Vite, and p
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/yourusername/react-drag-drop-todo.git
-   cd react-drag-drop-todo
+   git clone https://github.com/raisuman0077/dnd-todo.git
+   cd dnd-todo
    ```
 
 2. Install dependencies:
