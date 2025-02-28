@@ -6,6 +6,7 @@ import Home from "../src/views/Home";
 import TodayList from "../src/views/TodayList";
 import Upcoming from "../src/views/Upcoming";
 import Snackbar from "../src/components/Snackbar";
+import TopNavbar from "../src/components/TopNavbar";
 
 function App() {
   const navigate = useNavigate();
@@ -34,13 +35,16 @@ function App() {
         flexDirection: "row",
       }}
     >
-      <Navbar />
       <Snackbar />
-      <Routes>
-        <Route path="/all" element={<Home />} />
-        <Route path="/today" element={<TodayList />} />
-        <Route path="/upcoming" element={<Upcoming />} />
-      </Routes>
+      <Navbar />
+      <div className="main-display">
+        <TopNavbar />
+        <Routes>
+          <Route path="/all" element={<Home />} />
+          <Route path="/today" element={<TodayList />} />
+          <Route path="/upcoming" element={<Upcoming />} />
+        </Routes>
+      </div>
     </div>
   );
 }

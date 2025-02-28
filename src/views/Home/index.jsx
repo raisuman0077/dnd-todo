@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import "../../css/Home.css";
-import Button from "../../components/Button";
 import ActionModal from "../../components/ActionModal";
 import StatusIcon from "../../components/StatusIcon";
 import { deleteTodo, updateStatus } from "../../actions/todo";
@@ -10,10 +9,9 @@ import { updatePosition } from "../../actions/orderedTodo";
 
 import { MdArrowForwardIos } from "react-icons/md";
 
-import { init, options } from "./setup";
-import EditUi from "./EditUi";
-import AddTask from "./AddTask";
-import InfoUI from "./InfoUI";
+import { init } from "./setup";
+import EditUI from "../../components/EditUI";
+import DetailsUI from "../../components/DetailsUI";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -25,7 +23,6 @@ const index = () => {
   const [data, setData] = useState(null);
 
   const [open, setOpen] = useState({
-    openAddModal: false,
     openActionModal: false,
     openEditModal: false,
   });
@@ -80,25 +77,17 @@ const index = () => {
       setOpen((prev) => ({ ...prev, openEditModal: true, openActionModal: false }));
     }
   };
-
+  console.log(data, "dds");
   return (
     <>
       {open.openEditModal && (
-        <EditUi
+        <EditUI
           open={open.openEditModal}
           onClose={() => setOpen((prev) => ({ ...prev, openEditModal: false }))}
-          selectedData={selectedData}
+          data={selectedData}
         />
       )}
-      {open.openAddModal && (
-        <AddTask
-          value={value}
-          setValue={setValue}
-          open={open.openAddModal}
-          setOpen={setOpen}
-          todoDataArr={todoDataArr}
-        />
-      )}
+
       {selectedData.id && open.openActionModal && (
         <ActionModal
           position={modalPosition}
@@ -118,81 +107,58 @@ const index = () => {
       <div
         style={{
           width: "100%",
-          marginTop: "20px",
           display: "flex",
           gap: 8,
         }}
       >
-        <div
-          style={{
-            minHeight: "100%",
-            overflow: "hidden",
-            overflowY: "auto",
-            flexGrow: 3,
-          }}
-        >
-          <h1>All</h1>
-          <Button
-            onClick={() => setOpen((prev) => ({ ...prev, openAddModal: true }))}
-            style={{
-              backgroundColor: "transparent",
-              width: "200px",
-              color: "#747474",
-              border: "1px solid rgb(9, 9, 9)",
-              marginTop: "8px",
-              height: "auto",
-            }}
-          >
-            + Add New TODO
-          </Button>
-          <div className="main-container">
-            <div className="table-header">
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "20px",
-                }}
-              >
-                <div>SN.</div>
-                <div>Status</div>
-              </div>
-              <div>Task</div>
+        <div className="main-container">
+          <div className="table-header">
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "20px",
+              }}
+            >
+              <div>SN.</div>
+              <div>Status</div>
             </div>
-            <div style={{ borderBottom: "1px solid black" }} />
-            <DragDropContext onDragEnd={onDragEnd}>
-              <Droppable droppableId="tasks">
-                {(provided) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps}>
-                    {tasks.map((item, index) => (
-                      <Draggable key={item.id} draggableId={item.id} index={index}>
-                        {(provided) => (
-                          <div
-                            className="dragable-container"
-                            onContextMenu={(e) => handleRightClick(e, item)}
-                            onClick={() => setData(item)}
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            style={{
-                              ...provided.draggableProps.style,
-                            }}
-                          >
-                            <div className="dragable-table">
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: "25px",
-                                }}
-                              >
-                                <div>{index + 1}.</div>
+            <div>Task</div>
+          </div>
+          <div style={{ borderBottom: "1px solid black" }} />
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="tasks">
+              {(provided) => (
+                <div ref={provided.innerRef} {...provided.droppableProps}>
+                  {tasks.map((item, index) => (
+                    <Draggable key={item.id} draggableId={item.id} index={index}>
+                      {(provided) => (
+                        <div
+                          className="dragable-container"
+                          onContextMenu={(e) => handleRightClick(e, item)}
+                          onClick={() => setData(item)}
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={{
+                            ...provided.draggableProps.style,
+                          }}
+                        >
+                          <div className="dragable-table">
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "25px",
+                              }}
+                            >
+                              <div>{index + 1}.</div>
 
-                                <p
-                                  className="text-display"
-                                  style={{ textTransform: "capitalize" }}
-                                >
-                                  {/* {item.status === "pending" ? (
+                              <p
+                                className="text-display"
+                                style={{ textTransform: "capitalize" }}
+                              >
+                                {/* {item.status === "pending" ? (
                                     <MdOutlineCheckBoxOutlineBlank
                                       style={{ marginRight: "4px" }}
                                     />
@@ -201,27 +167,26 @@ const index = () => {
                                   ) : (
                                     <></>
                                   )} */}
-                                  <StatusIcon status={item.status} />
-                                  {item.status}
-                                </p>
-                              </div>
-                              <div> {item.title}</div>
+                                <StatusIcon status={item.status} />
+                                {item.status}
+                              </p>
                             </div>
-                            {data && item.id === data.id && <MdArrowForwardIos />}
+                            <div> {item.title}</div>
                           </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
-          </div>
+                          {data && item.id === data.id && <MdArrowForwardIos />}
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
         </div>
         {data && (
-          <div>
-            <InfoUI data={data} />
+          <div className={`"detail-ui" ${data && "active-detail-ui"}`}>
+            <DetailsUI data={data} />
           </div>
         )}
       </div>

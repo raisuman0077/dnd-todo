@@ -5,6 +5,7 @@
   padding-bottom: 24px;
   padding-left: 10px;
   padding-right: 10px;
+  flex-grow: 1;
 }
 .table-header {
   display: flex;
@@ -34,20 +35,27 @@
 }
 
 /* Detail css */
+.detail-ui {
+  /* display: none; */
+  transition: transform 0.5s ease-in-out;
+}
+.active-detail-ui {
+  display: block;
+}
 .info-section {
   padding: 10px;
   padding-top: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 115px;
   margin-right: 14px;
   max-width: 300px;
   width: 300px;
-  background-color: #ffffff;
+  background-color: #f4f4f4;
   border-radius: 6px;
   border: 1px solid #000000;
-  min-height: 500px;
+  min-height: 600px;
+  transition: transform 0.5s ease-in-out;
 }
 
 .info-container {

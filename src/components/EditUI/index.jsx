@@ -1,17 +1,21 @@
 import React, { useRef, useState } from "react";
-import Modal from "../../components/Modal";
-import InputField from "../../components/InputField";
-import Button from "../../components/Button";
 import { useDispatch } from "react-redux";
-import { updateTodo } from "../../actions/todo";
-import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter";
-import TextArea from "../../components/TextArea";
 
-const EditUi = ({ open, onClose, selectedData }) => {
+import Button from "../Button";
+import Modal from "../Modal";
+import InputField from "../InputField";
+import TextArea from "../TextArea";
+
+import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter";
+import { updateTodo } from "../../actions/todo";
+
+const index = ({ open, onClose, data }) => {
   const dispatch = useDispatch();
-  const inputRef = useRef();
-  const { id = "", title = "", date = "", description = "" } = selectedData;
-  const [value, setValue] = useState({ ...selectedData });
+  const inputRef = useRef(null);
+
+  const [value, setValue] = useState({ ...data });
+  const { id = "", title = "", date = "", description = "" } = data;
+
   const handleChange = (s, v) => {
     setValue((prev) => ({ ...prev, [s]: v }));
   };
@@ -37,7 +41,7 @@ const EditUi = ({ open, onClose, selectedData }) => {
         message: "Updated successfully.",
       },
     });
-    onClose();
+    onClose(false);
   };
 
   const UpdateButton = () => (
@@ -45,6 +49,7 @@ const EditUi = ({ open, onClose, selectedData }) => {
       Update
     </Button>
   );
+
   return (
     <Modal title="Edit Details" isOpen={open} onClose={onClose} Button={UpdateButton}>
       <InputField
@@ -62,6 +67,7 @@ const EditUi = ({ open, onClose, selectedData }) => {
         onChange={(e) => handleChange("title", e.target.value)}
         style={{ width: "60%" }}
       />
+
       <TextArea
         title="Task Description"
         value={value.description}
@@ -74,4 +80,4 @@ const EditUi = ({ open, onClose, selectedData }) => {
   );
 };
 
-export default EditUi;
+export default index;

@@ -1,13 +1,10 @@
 import React from "react";
 
-const InfoUI = ({ data }) => {
+const index = ({ data }) => {
   if (!data) return <></>;
 
-  // Determine the number of blank lines
-  const blankLines = data.description ? 2 : 4;
-
   return (
-    <div className="info-section">
+    <div className={"info-section"}>
       <p style={{ fontWeight: 600, fontSize: 18, marginTop: 10 }}>Details</p>
       <div className="info-container">
         <div style={{ display: "flex" }}>
@@ -44,4 +41,4 @@ const InfoUI = ({ data }) => {
   );
 };
 
-export default InfoUI;
+export default index;
