@@ -1,7 +1,8 @@
 const sideNavSetupArray = [
   { label: "All", path: "/all" },
   { label: "Today", path: "/today" },
-  { label: "Upcoming", path: "/upcoming" },
+  { label: "Scheduled", path: "/scheduled" },
+  { label: "Unscheduled", path: "/unscheduled" },
 ];
 
 export { sideNavSetupArray };

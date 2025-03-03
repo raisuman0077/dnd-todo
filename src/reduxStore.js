@@ -7,7 +7,13 @@ import allReducers from "./reducers";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["todo", "orderedTodo"],
+  whitelist: [
+    "todo",
+    "orderedTodo",
+    "orderedTodayTodo",
+    "scheduledTodo",
+    "unScheduledTodo",
+  ],
 };
 
 const persistedReducer = persistReducer(persistConfig, allReducers);

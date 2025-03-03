@@ -1,16 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../css/Modal.css";
-const index = ({ children, isOpen, onClose, title = "", Button = null }) => {
-  if (!isOpen) return null;
+import { IoMdCloseCircleOutline } from "react-icons/io";
+
+const Modal = ({ children, isOpen, onClose, title = "", Button = null }) => {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => setShow(true), 10);
+    } else {
+      setShow(false);
+    }
+  }, [isOpen]);
+
+  if (!isOpen && !show) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className={`modal-overlay ${show ? "show" : ""}`} onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <p className="modal-title">{title}</p>
-          <button className="close-button" onClick={onClose}>
-            X
-          </button>
+          <IoMdCloseCircleOutline className="close-button" onClick={onClose} />
         </div>
         <div className="content">{children}</div>
         {Button && (
@@ -23,4 +33,4 @@ const index = ({ children, isOpen, onClose, title = "", Button = null }) => {
   );
 };
 
-export default index;
+export default Modal;

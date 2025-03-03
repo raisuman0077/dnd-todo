@@ -4,7 +4,8 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import Navbar from "../src/components/Navbar";
 import Home from "../src/views/Home";
 import TodayList from "../src/views/TodayList";
-import Upcoming from "../src/views/Upcoming";
+import Scheduled from "./views/Scheduled";
+import Unscheduled from "./views/Unscheduled";
 import Snackbar from "../src/components/Snackbar";
 import TopNavbar from "../src/components/TopNavbar";
 
@@ -29,8 +30,8 @@ function App() {
   return (
     <div
       style={{
-        width: "100dvw",
         maxHeight: "100dvh",
+        width: "100dvw",
         display: "flex",
         flexDirection: "row",
       }}
@@ -42,7 +43,8 @@ function App() {
         <Routes>
           <Route path="/all" element={<Home />} />
           <Route path="/today" element={<TodayList />} />
-          <Route path="/upcoming" element={<Upcoming />} />
+          <Route path="/scheduled" element={<Scheduled />} />
+          <Route path="/unscheduled" element={<Unscheduled />} />
         </Routes>
       </div>
     </div>

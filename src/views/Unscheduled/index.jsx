@@ -1,27 +1,18 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import ActionModal from "../../components/ActionModal";
-import StatusIcon from "../../components/StatusIcon";
 import { deleteTodo, updateStatus } from "../../actions/todo";
-import { MdArrowForwardIos } from "react-icons/md";
 
 import EditUI from "../../components/EditUI";
 import TableUI from "../../components/TableUI";
-import { updateTodayDataPosition } from "../../actions/orderedTodayTodo";
-
-const getTodayDate = () => {
-  const today = new Date();
-  return today.toISOString().split("T")[0];
-};
+import { updateUnScheduledPosition } from "../../actions/unScheduledTodo";
 
 const index = () => {
   const dispatch = useDispatch();
   const todoData = useSelector((state) => state.todo);
-  const orderedTodayTodoData = useSelector((state) => state.orderedTodayTodo);
+  const unScheduledTodoData = useSelector((state) => state.unScheduledTodo);
   const [selectedData, setSelectedData] = useState({});
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
-  const [data, setData] = useState(null);
 
   const [open, setOpen] = useState({
     openActionModal: false,
@@ -29,21 +20,20 @@ const index = () => {
   });
 
   const todoDataArr = useMemo(() => {
-    const today = getTodayDate();
     const todoKeys = new Set(Object.keys(todoData || {}));
 
     const filteredTodos = Object.keys(todoData || {}).filter(
-      (key) => todoData[key].date === today
+      (key) => todoData[key].date === ""
     );
 
-    const orderedKeys = Object.keys(orderedTodayTodoData || {}).filter(
+    const orderedKeys = Object.keys(unScheduledTodoData || {}).filter(
       (key) => filteredTodos.includes(key) && todoKeys.has(key)
     );
 
     const newKeys = filteredTodos.filter((key) => !orderedKeys.includes(key));
 
     return [...newKeys, ...orderedKeys].map((key) => todoData[key]);
-  }, [todoData, orderedTodayTodoData]);
+  }, [todoData, unScheduledTodoData]);
 
   const [tasks, setTasks] = useState(todoDataArr);
 
@@ -57,7 +47,7 @@ const index = () => {
     const [movedTask] = reorderedTasks.splice(result.source.index, 1);
     reorderedTasks.splice(result.destination.index, 0, movedTask);
     setTasks(reorderedTasks);
-    dispatch(updateTodayDataPosition(reorderedTasks));
+    dispatch(updateUnScheduledPosition(reorderedTasks));
   };
 
   const handleRightClick = (e, row) => {
@@ -108,6 +98,7 @@ const index = () => {
           }}
         />
       )}
+
       <TableUI
         data={tasks}
         handleRightClick={handleRightClick}
