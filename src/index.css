@@ -56,7 +56,14 @@ button:focus-visible {
 }
 
 /* app css   */
-.main-display {
-  margin-top: 30px;
-  width: 100%;
+.app {
+  height: 100dvh;
+  width: 100dvw;
+  display: flex;
+  flex-direction: row;
+}
+@media screen and (max-width: 640px) {
+  .app {
+    flex-direction: column;
+  }
 }

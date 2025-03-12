@@ -71,11 +71,7 @@ const index = () => {
   );
 
   return (
-    <div
-      style={{
-        width: "100%",
-      }}
-    >
+    <div>
       {open.openEditModal && (
         <EditUI
           open={open.openEditModal}

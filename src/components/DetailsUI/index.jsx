@@ -22,7 +22,6 @@ const InfoSection = ({ data, setData, open, close }) => {
         <div
           style={{
             display: "flex",
-            width: "100%",
             justifyContent: "space-between",
           }}
         >
@@ -39,7 +38,18 @@ const InfoSection = ({ data, setData, open, close }) => {
         <div className="info-container">
           <div style={{ display: "flex" }}>
             <p style={{ fontWeight: 500 }}>Title:</p>
-            <p style={{ margin: 0, marginLeft: 4 }}>{data.title}</p>
+            <p
+              style={{
+                margin: 0,
+                marginLeft: 4,
+                maxWidth: "400px",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {data.title}
+            </p>
           </div>
           {data.date && (
             <div style={{ display: "flex" }}>

@@ -4,6 +4,7 @@ import "../../css/TopNavbar.css";
 
 import Button from "../Button";
 import AddTask from "../AddTask";
+import { BiFontSize } from "react-icons/bi";
 
 const index = () => {
   const location = useLocation();
@@ -30,9 +31,10 @@ const index = () => {
             backgroundColor: "transparent",
             width: "200px",
             color: "#747474",
-            border: "1px solid rgb(9, 9, 9)",
+            border: "2px solid #656363",
             marginTop: "8px",
             height: "auto",
+            color: "#000000",
           }}
         >
           + Add New TODO

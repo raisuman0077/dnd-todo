@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../../css/Navbar.css";
-import { sideNavSetupArray } from "./setup";
+import { navSetupArray } from "./setup";
 import { Link, useLocation } from "react-router-dom";
 
 const index = () => {
@@ -14,7 +14,7 @@ const index = () => {
         <h2>Menu</h2>
         <div style={{ fontSize: "18px", fontWeight: "bold" }}>Task</div>
         <div>
-          {sideNavSetupArray.map((nav) => (
+          {navSetupArray.map((nav) => (
             <div
               key={nav.path}
               className={`btn ${currentPath === nav.path && "activeBtn"}`}
@@ -28,7 +28,18 @@ const index = () => {
       </div>
 
       {/* Mobile nabar */}
-      <div></div>
+      <div className="mobile-navbar">
+        {navSetupArray.map((nav) => (
+          <div
+            key={nav.path}
+            className={`btn ${currentPath === nav.path && "activeBtn"}`}
+          >
+            <Link to={nav.path} style={{ paddingLeft: "6px" }}>
+              {nav.label}
+            </Link>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

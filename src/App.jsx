@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import Navbar from "../src/components/Navbar";
 import Home from "../src/views/Home";
@@ -10,14 +10,6 @@ import Snackbar from "../src/components/Snackbar";
 import TopNavbar from "../src/components/TopNavbar";
 
 function App() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (window.location.pathname === "/") {
-      navigate("/all", { replace: true });
-    }
-  }, [navigate]);
-
   useEffect(() => {
     const disableRightClick = (event) => event.preventDefault();
     document.addEventListener("contextmenu", disableRightClick);
@@ -26,21 +18,17 @@ function App() {
       document.removeEventListener("contextmenu", disableRightClick);
     };
   }, []);
-
   return (
-    <div
-      style={{
-        maxHeight: "100dvh",
-        width: "100dvw",
-        display: "flex",
-        flexDirection: "row",
-      }}
-    >
+    <div className="app">
       <Snackbar />
       <Navbar />
-      <div className="main-display">
+      <div
+        className="main-display"
+        style={{ width: "100%", boxSizing: "border-box", padding: "24px" }}
+      >
         <TopNavbar />
         <Routes>
+          <Route path="/" element={<Navigate to="/all" />} />
           <Route path="/all" element={<Home />} />
           <Route path="/today" element={<TodayList />} />
           <Route path="/scheduled" element={<Scheduled />} />
