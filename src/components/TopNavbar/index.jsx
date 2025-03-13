@@ -4,7 +4,6 @@ import "../../css/TopNavbar.css";
 
 import Button from "../Button";
 import AddTask from "../AddTask";
-import { BiFontSize } from "react-icons/bi";
 
 const index = () => {
   const location = useLocation();

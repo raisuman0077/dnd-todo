@@ -25,7 +25,23 @@
 .detail-modal {
   display: none;
 }
-
+.filter-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  width: 50%;
+}
+.filter-dropdown {
+  display: grid;
+  align-items: center;
+  margin-top: -8px;
+}
+@media only screen and (max-width: 890px) {
+  .filter-section {
+    width: 70%;
+  }
+}
 @media only screen and (max-width: 768px) {
   .table {
     gap: 0;
@@ -35,6 +51,9 @@
   }
   .detail-modal {
     display: block;
+  }
+  .filter-section {
+    width: 90%;
   }
 }
 .table-header {

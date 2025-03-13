@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "../../css/Dropdown.css";
 import { IoIosArrowForward } from "react-icons/io";
 
-const index = ({ title, options, onSelect }) => {
+const index = ({ title, options, onSelect, icon = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -37,12 +37,14 @@ const index = ({ title, options, onSelect }) => {
         }}
       >
         <label className="dropdown-label">{title}</label>
-        <IoIosArrowForward
-          style={{
-            transition: "transform 0.3s ease-in-out",
-            transform: isOpen ? "rotate(90deg)" : "rotate(0deg)",
-          }}
-        />
+        {icon && (
+          <IoIosArrowForward
+            style={{
+              transition: "transform 0.3s ease-in-out",
+              transform: isOpen ? "rotate(90deg)" : "rotate(0deg)",
+            }}
+          />
+        )}
       </div>
       <div className={`dropdown-menu ${isOpen ? "open" : ""}`}>
         {options.map((item) => (

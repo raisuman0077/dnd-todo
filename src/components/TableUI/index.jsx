@@ -9,26 +9,8 @@ import InputField from "../InputField";
 
 import "../../css/TableUI.css";
 import { useDispatch } from "react-redux";
-
-const ITEMS_PER_PAGE = 13;
-
-const options = {
-  pending: [
-    { title: "Completed", value: "completed" },
-    { title: "In-Complete", value: "incomplete" },
-    { title: "Canceled", value: "canceled" },
-  ],
-  completed: [
-    { title: "Pending", value: "pending" },
-    { title: "In-Complete", value: "incomplete" },
-    { title: "Canceled", value: "canceled" },
-  ],
-  incomplete: [
-    { title: "Pending", value: "pending" },
-    { title: "Completed", value: "completed" },
-    { title: "Canceled", value: "canceled" },
-  ],
-};
+import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter";
+import { options, filterOptions } from "./setup";
 
 const Index = ({ data, handleRightClick, handleSelect, onDragEnd }) => {
   const dispatch = useDispatch(null);
@@ -37,7 +19,7 @@ const Index = ({ data, handleRightClick, handleSelect, onDragEnd }) => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
-
+  const [filter, setFilter] = useState("all");
   const handleRightClickRow = useCallback((e, row) => {
     if (!row) return;
     handleRightClick(e, row);
@@ -55,6 +37,11 @@ const Index = ({ data, handleRightClick, handleSelect, onDragEnd }) => {
         JSON.stringify(item).toLowerCase().includes(debouncedQuery.toLowerCase())
       )
     : data;
+  const finalFilteredData =
+    filter === "all"
+      ? filteredData
+      : filteredData.filter((item) => item.status === filter);
+
   const onDrag = (req) => {
     if (searchQuery) {
       dispatch({
@@ -69,16 +56,26 @@ const Index = ({ data, handleRightClick, handleSelect, onDragEnd }) => {
     }
     onDragEnd(req);
   };
+
   return (
     <div className="table-section" style={{ overflow: "hidden" }}>
-      <InputField
-        type="search"
-        placeholder="Search..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        style={{ marginTop: "6px" }}
-      />
-
+      <div className="filter-section">
+        <InputField
+          type="search"
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          style={{ marginTop: "6px" }}
+        />
+        <div className="filter-dropdown">
+          <label style={{ fontWeight: "bold", color: "#3e3e3e" }}>Filter by:</label>
+          <Dropdown
+            title={capitalizeFirstLetter(filter)}
+            options={filterOptions}
+            onSelect={(v) => setFilter(v)}
+          />
+        </div>
+      </div>
       <div className="table">
         <div className="main-table">
           <div className="table-header">
@@ -89,58 +86,72 @@ const Index = ({ data, handleRightClick, handleSelect, onDragEnd }) => {
           </div>
 
           <div style={{ borderBottom: "1px solid black" }} />
-          <div className="table-content">
-            <DragDropContext onDragEnd={onDrag}>
-              <Droppable droppableId="tasks">
-                {(provided) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps}>
-                    {filteredData.map((item, index) => (
-                      <Draggable key={item.id} draggableId={item.id} index={index}>
-                        {(provided) => (
-                          <div
-                            onContextMenu={(e) => handleRightClickRow(e, item)}
-                            onClick={() => {
-                              setShowDetail(true);
-                              setDisplayData(item);
-                            }}
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            <div className="dragable-row">
-                              <div
-                                className="row-item"
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "row",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <div>{index + 1}.</div>
-                                <div style={{ paddingTop: 2, paddingBottom: 2 }}>
-                                  <Dropdown
-                                    title={item.status}
-                                    options={options[item.status]}
-                                    onSelect={(v) => handleSelect(v, item.id)}
-                                  />
+          {finalFilteredData.length > 0 ? (
+            <div className="table-content">
+              <DragDropContext onDragEnd={onDrag}>
+                <Droppable droppableId="tasks">
+                  {(provided) => (
+                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                      {finalFilteredData.map((item, index) => (
+                        <Draggable key={item.id} draggableId={item.id} index={index}>
+                          {(provided) => (
+                            <div
+                              onContextMenu={(e) => handleRightClickRow(e, item)}
+                              onClick={() => {
+                                setShowDetail(true);
+                                setDisplayData(item);
+                              }}
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              <div className="dragable-row">
+                                <div
+                                  className="row-item"
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <div>{index + 1}.</div>
+                                  <div style={{ paddingTop: 2, paddingBottom: 2 }}>
+                                    <Dropdown
+                                      title={item.status}
+                                      options={options[item.status]}
+                                      onSelect={(v) => handleSelect(v, item.id)}
+                                      icon={true}
+                                    />
+                                  </div>
+                                  <div className="title-content">{item.title}</div>
+                                  <div className="date-content">{item.date}</div>
                                 </div>
-                                <div className="title-content">{item.title}</div>
-                                <div className="date-content">{item.date}</div>
+                                {showDetail && item.id === displayData.id && (
+                                  <MdArrowForwardIos />
+                                )}
                               </div>
-                              {showDetail && item.id === displayData.id && (
-                                <MdArrowForwardIos />
-                              )}
                             </div>
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
-          </div>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            </div>
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "inherit",
+              }}
+            >
+              <p style={{ color: "grey", fontSize: "2.5em" }}>No items!</p>
+            </div>
+          )}
         </div>
 
         {displayData && showDetail && (
