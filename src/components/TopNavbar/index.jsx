@@ -28,7 +28,7 @@ const index = () => {
           onClick={() => setOpen(true)}
           style={{
             backgroundColor: "transparent",
-            width: "200px",
+            width: "210px",
             color: "#747474",
             border: "2px solid #656363",
             marginTop: "8px",

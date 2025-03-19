@@ -17,7 +17,7 @@ const index = () => {
         <h2>Menu</h2>
         <div
           style={{
-            fontSize: "18px",
+            fontSize: "24px",
             fontWeight: "bold",
             marginTop: "8px",
             marginBottom: "6px",
@@ -25,13 +25,13 @@ const index = () => {
         >
           Task
         </div>
-        <div style={{ display: "grid", gap: "4px" }}>
+        <div style={{ display: "grid", gap: "4px", marginTop: 4 }}>
           {navSetupArray.map((nav) => (
             <div
               key={nav.path}
               className={`btn ${currentPath === nav.path && "activeBtn"}`}
             >
-              <Link to={nav.path} style={{ paddingLeft: "6px" }}>
+              <Link to={nav.path} style={{ paddingLeft: "6px", fontSize: "20px" }}>
                 {nav.label}
               </Link>
             </div>

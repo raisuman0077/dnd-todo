@@ -48,7 +48,7 @@ const index = () => {
   };
 
   const handleRightClick = useCallback((e, row) => {
-    if (!row) return;
+    if (!row && !e) return;
     setModalPosition({ x: e.clientX, y: e.clientY });
     setSelectedData(row);
     setOpen((prev) => ({ ...prev, openActionModal: true }));

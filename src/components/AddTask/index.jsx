@@ -72,7 +72,7 @@ const index = ({ open, setOpen }) => {
   );
   return (
     <Modal
-      title="Add New Task"
+      title="Add New To-Do"
       isOpen={open}
       onClose={() => {
         setOpen();

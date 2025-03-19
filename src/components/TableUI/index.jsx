@@ -25,6 +25,11 @@ const Index = ({ data, handleRightClick, handleSelect, onDragEnd }) => {
     handleRightClick(e, row);
   }, []);
 
+  const handleLongPress = (e, row) => {
+    if (!row && e.touches[0]) return;
+    setTimeout(() => handleRightClickRow(e.touches[0], row), 500);
+  };
+
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setDebouncedQuery(searchQuery);
@@ -101,6 +106,7 @@ const Index = ({ data, handleRightClick, handleSelect, onDragEnd }) => {
                                 setShowDetail(true);
                                 setDisplayData(item);
                               }}
+                              onTouchStart={(e) => handleLongPress(e, item)}
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
